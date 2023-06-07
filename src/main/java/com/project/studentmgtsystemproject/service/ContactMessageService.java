@@ -1,6 +1,7 @@
 package com.project.studentmgtsystemproject.service;
 
 import com.project.studentmgtsystemproject.entity.concretes.ContactMessage;
+import com.project.studentmgtsystemproject.exception.ConflictException;
 import com.project.studentmgtsystemproject.payload.request.ContactMessageRequest;
 import com.project.studentmgtsystemproject.payload.response.ContactMessageResponse;
 import com.project.studentmgtsystemproject.payload.response.ResponseMessage;
@@ -21,13 +22,25 @@ public class ContactMessageService {
     public ResponseMessage<ContactMessageResponse> save(ContactMessageRequest contactMessageRequest){
 
         // it is expected to create one message in one day with the same email
+        boolean isSameMessageWithSameEmailForToday =
+                contactMessageRepository.existsByEmailEqualsAndDateEquals(contactMessageRequest.getEmail(), LocalDate.now());
 
+        if(isSameMessageWithSameEmailForToday){
+            throw new ConflictException(message);
+        }
+        // create a ContactMessage object from the ContactMessageRequest
         ContactMessage contactMessage = createContactMessage(contactMessageRequest);
+        // save the ContactMessage to the database using the repository
         ContactMessage savedData = contactMessageRepository.save(contactMessage);
+
+        // for the response object 2 options: 1 with the object created below .object(createResponse(savedData))
+        // or create an object
+        //ContactMessageResponse response = createResponse(savedData); call this object => (below) .object(response)
+
         return ResponseMessage.<ContactMessageResponse>builder()
                 .message("Contact Message Created Successfully")
                 .httpStatus(HttpStatus.CREATED)
-                .object(createResponse(savedData))
+                .object(createResponse(savedData))// create a contactMessageResponse object from the saved contactMessage
                 .build();
 
         // we injected the contact message request from below into the parameter, NOW we get an Entity Type (ContactMessage)
