@@ -6,6 +6,7 @@ import com.project.studentmgtsystemproject.payload.request.ContactMessageRequest
 import com.project.studentmgtsystemproject.payload.response.ContactMessageResponse;
 import com.project.studentmgtsystemproject.payload.response.ResponseMessage;
 import com.project.studentmgtsystemproject.repository.ContactMessageRepository;
+import com.project.studentmgtsystemproject.utils.Messages;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,7 @@ public class ContactMessageService {
                 contactMessageRepository.existsByEmailEqualsAndDateEquals(contactMessageRequest.getEmail(), LocalDate.now());
 
         if(isSameMessageWithSameEmailForToday){
-            throw new ConflictException(message);
+            throw new ConflictException(Messages.ALREADY_SEND_A_MESSAGE_TODAY);
         }
         // create a ContactMessage object from the ContactMessageRequest
         ContactMessage contactMessage = createContactMessage(contactMessageRequest);
