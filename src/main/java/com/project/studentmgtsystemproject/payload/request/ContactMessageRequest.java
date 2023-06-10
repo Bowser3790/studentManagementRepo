@@ -1,11 +1,11 @@
 package com.project.studentmgtsystemproject.payload.request;
 
 
-import jakarta.persistence.Column;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import javax.persistence.Column;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,7 +39,7 @@ public class ContactMessageRequest implements Serializable {
 
     @NotNull (message = "Please enter name")
     @Size(min = 10, max = 50,message = "Your name should be at least 10 characters")
-    @Pattern(regexp = "\\A(?!\\s*\\Z).+",message = "Your message must consist of the character .")
+    @Pattern(regexp = "\\A(?!\\s*\\Z).+",message = "Your message must consist of at least 1 character character and not filled with white spaces.")
     private String message;
 
 }

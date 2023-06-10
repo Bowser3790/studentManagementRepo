@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.Optional;
+
 public interface ContactMessageRepository extends JpaRepository<ContactMessage,Long> { // Long => type of PrimaryKey.
 
 
@@ -32,6 +34,7 @@ public interface ContactMessageRepository extends JpaRepository<ContactMessage,L
 
     Page<ContactMessage>findByEmailEquals(String email, Pageable pageable);
 
-    Page<ContactMessage>findBySubjectEquals(String subject,Pageable pageable);
+	// this is an abstract method
+	Page<ContactMessage>findBySubjectEquals(String subject,Pageable pageable);
 
 }
