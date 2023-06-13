@@ -5,13 +5,20 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.project.studentmgtsystemproject.enums.Note;
 import javax.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-
+@Builder(toBuilder = true)
 public class StudentInfo {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private Integer absentee;
     private Double midtermExam;

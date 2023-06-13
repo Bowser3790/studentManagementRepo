@@ -48,4 +48,5 @@ public class EducationTerm {
 //    @Column(name = "start_date")
 //    private LocalDate startDate;
 
+    
 }

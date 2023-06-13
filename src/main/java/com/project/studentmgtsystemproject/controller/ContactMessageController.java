@@ -67,6 +67,16 @@ public class ContactMessageController {
         return contactMessageService.getAll(page, size, sort, type);
     }
 
+    /**  NOTE how do you automatically populate this? -> /** and hit enter
+     *
+     * @param email
+     * @param page
+     * @param size
+     * @param sort
+     * @param type
+     * @return
+     */
+
     @GetMapping("/searchByEmail")
     public Page<ContactMessageResponse> searchByEmail(
             @RequestParam(value = "email") String email,

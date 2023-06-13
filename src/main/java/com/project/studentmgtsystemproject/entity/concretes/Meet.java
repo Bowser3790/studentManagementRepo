@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import net.bytebuddy.dynamic.loading.InjectionClassLoader;
 
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -23,10 +24,10 @@ public class Meet {
 
     private String description;
 
-    @JsonFormat(shape = JsonFormat.shape.STRING, pattern = "HH:mm",timezone = "US")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm",timezone = "US")
     private LocalTime startTime;
 
-    @JsonFormat(shape = JsonFormat.shape.STRING, pattern = "HH:mm",timezone = "US")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm",timezone = "US")
     private LocalTime stopTime;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
@@ -36,7 +37,9 @@ public class Meet {
     @ManyToMany
     @JoinTable(
             name = "meet_student_table",
-            joinColumns =
+            joinColumns = @JoinColumn(name = "meet_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id")
     )
+    private List<Student> studentList;
 
 }

@@ -1,12 +1,16 @@
 package com.project.studentmgtsystemproject.entity.concretes;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
+
+import com.project.studentmgtsystemproject.enums.Day;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.Set;
 
@@ -15,10 +19,10 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class LessonProgram {
+public class LessonProgram implements Serializable { // this will be an INTERVIEW QUESTION Serializable? what does it mean?
 
     @Id
-    @GeneratedValue(Strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Enumerated(EnumType.STRING)
@@ -45,8 +49,8 @@ public class LessonProgram {
 
     @PreRemove
     private void removeLessonProgramFromStudent(){
-        teachers.forEach(teacher -> teacher.getLessonsProgramList().remove(this));
-        students.forEach(student -> student.getLessonsProgramList().remove(this));
+        teachers.forEach(teacher -> teacher.getLessonProgramList().remove(this));
+        students.forEach(student -> student.getLessonProgramList().remove(this));
     }
 
 }
