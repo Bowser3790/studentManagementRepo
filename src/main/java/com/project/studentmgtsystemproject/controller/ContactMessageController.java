@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class ContactMessageController {
 
-    private final ContactMessageService contactMessageService = null;
+    private final ContactMessageService contactMessageService;
 
     // add endpoint => check the database if there are any messages
     /*
@@ -99,17 +99,15 @@ public class ContactMessageController {
 
 
     }
-    @DeleteMapping("/{id}")
-    public <ContactMessageResponse> ContactMessageController(
-            @PathVariable() Long id){
-        contactMessageService.deleteContactMessageById(id);
-        Map<String,String> map = new HashMap<>();
-        map.put("message", "Student deleted successfully");
-        map.put("status", "true");
-        return ContactMessageResponse(map, HttpStatus.CREATED);
+//    @DeleteMapping("/{id}")
+//    public <ContactMessageResponse> ContactMessageController(
+//            @PathVariable() Long id){
+//        contactMessageService.deleteContactMessageById(id);
+//        Map<String,String> map = new HashMap<>();
+//        map.put("message", "Student deleted successfully");
+//        map.put("status", "true");
+//        return ContactMessageResponse(map, HttpStatus.CREATED);
 
 
     }
-    )
 
-}
