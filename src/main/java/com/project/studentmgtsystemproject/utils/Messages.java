@@ -15,4 +15,6 @@ public class Messages {
     public static final String ALREADY_SEND_A_MESSAGE_TODAY = "Error: You have already sent an message with this e-mail";
 
     public static final String ROLE_NOT_FOUND = "There is no role available that you are searching for.";
+
+    public static final String ROLE_ALREADY_EXISTS_IN_DATABASE = "The database already has these roles available";
 }

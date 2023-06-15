@@ -18,7 +18,8 @@ public class AdminController {
 
     @PostMapping("/save")
     public ResponseEntity<?>save(AdminRequest adminRequest){
-        return null;
+
+        return ResponseEntity.ok(adminService.save(adminRequest));
     }
 
 }

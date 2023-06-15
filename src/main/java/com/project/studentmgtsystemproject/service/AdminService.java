@@ -1,12 +1,15 @@
 package com.project.studentmgtsystemproject.service;
 
 import com.project.studentmgtsystemproject.entity.concretes.Admin;
+import com.project.studentmgtsystemproject.enums.RoleType;
 import com.project.studentmgtsystemproject.exception.ConflictException;
 import com.project.studentmgtsystemproject.payload.request.AdminRequest;
+import com.project.studentmgtsystemproject.payload.response.AdminResponse;
 import com.project.studentmgtsystemproject.payload.response.ResponseMessage;
 import com.project.studentmgtsystemproject.repository.*;
 import com.project.studentmgtsystemproject.utils.Messages;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +32,8 @@ public class AdminService {
 
     private final GuestUserRepository guestUserRepository;
 
+    private final UserRoleService userRoleService;
+
 
 
     public ResponseMessage save(AdminRequest adminRequest){
@@ -41,8 +46,29 @@ public class AdminService {
         if(Objects.equals(adminRequest.getName(), "Admin")){
             admin.setBuilt_in(false);
         }
-        admin.setUserRole();
+        admin.setUserRole(userRoleService.getUserRole(RoleType.ADMIN));
 
+        // we will implement password encoder here.
+        Admin savedAdmin = adminRepository.save(admin);
+
+        //In response message savedAdmin instance may not be sent back to the front-end.
+        return ResponseMessage.<AdminResponse>builder()
+                .message("Admin Saved") // message saved will be sent to the front end
+                .httpStatus(HttpStatus.CREATED) // if the code ends at this line we will send a response to the front end with the status code for created// probably 200 code.
+                .object(mapAdminToAdminResponse(savedAdmin))// this line is not necessary this saves the information to the front end
+                .build();
+
+    }
+    private AdminResponse mapAdminToAdminResponse(Admin admin){
+        return AdminResponse.builder()
+                .userId(admin.getId())
+                .username(admin.getUsername())
+                .name(admin.getName())
+                .surname(admin.getSurname())
+                .phoneNumber(admin.getPhoneNumber())
+                .gender(admin.getGender())
+                .ssn(admin.getSsn())
+                .build();
     }
     private Admin mapAdminRequestToAdmin(AdminRequest adminRequest){
         return Admin.builder()
@@ -84,13 +110,10 @@ public class AdminService {
                 guestUserRepository.existsByPhoneNumber(phone)) {
             throw new ConflictException(String.format(Messages.ALREADY_REGISTER_MESSAGE_PHONE_NUMBER, phone));
             
-        } else if (adminRepository.) {
+        }
 
         }
 
 
     }
 
-
-
-}
