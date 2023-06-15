@@ -9,12 +9,15 @@ import com.project.studentmgtsystemproject.payload.response.ResponseMessage;
 import com.project.studentmgtsystemproject.repository.*;
 import com.project.studentmgtsystemproject.utils.Messages;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.awt.print.Pageable;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -57,6 +60,15 @@ public class AdminService {
                 .httpStatus(HttpStatus.CREATED) // if the code ends at this line we will send a response to the front end with the status code for created// probably 200 code.
                 .object(mapAdminToAdminResponse(savedAdmin))// this line is not necessary this saves the information to the front end
                 .build();
+
+    }
+    public Page<Admin> getAllAdmins(Pageable pageable){
+        return adminRepository.findAll(pageable);
+
+    }
+    public String deleteAdmin(Long id){
+        //we should check the database if the ID exists
+        Optional<Admin>admin = adminRepository.findById(id);
 
     }
     private AdminResponse mapAdminToAdminResponse(Admin admin){
@@ -114,6 +126,9 @@ public class AdminService {
 
         }
 
+    public long countAllAdmins(){
+        return adminRepository.count();
+    }
 
     }
 

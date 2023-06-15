@@ -57,6 +57,7 @@ public abstract class User { // if you click on the blue button on line 28 it wi
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private UserRole userRole;
 
+    @Enumerated(EnumType.STRING)
     private Gender gender; // enums we do not need to put any relationship type OneToOne etc...
 
 
