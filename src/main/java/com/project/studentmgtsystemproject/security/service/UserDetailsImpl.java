@@ -3,6 +3,7 @@ package com.project.studentmgtsystemproject.security.service;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,19 +17,24 @@ import java.util.Objects;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 
 public class UserDetailsImpl implements UserDetails{
 
     private Long Id;
+
     private String username;
+
     private String name;
+
     private Boolean isAdvisor;
+
     @JsonIgnore
     private String password;
 
     private Collection<? extends GrantedAuthority>authorities;
 
-    private UserDetailsImpl(Long Id, String username, String name, Boolean isAdvisor, String password, String role){
+    public UserDetailsImpl(Long Id, String username, String name, Boolean isAdvisor, String password, String role){
         this.Id = Id;
         this.username = username;
         this.name = name;

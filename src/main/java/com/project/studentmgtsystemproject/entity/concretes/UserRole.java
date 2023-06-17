@@ -4,6 +4,7 @@ package com.project.studentmgtsystemproject.entity.concretes;
 import com.project.studentmgtsystemproject.enums.RoleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.bytebuddy.dynamic.loading.InjectionClassLoader;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="roles")
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -24,4 +26,6 @@ public class UserRole {
     @Column(length = 20)
     private RoleType roleType;
 
-}
+
+    }
+
