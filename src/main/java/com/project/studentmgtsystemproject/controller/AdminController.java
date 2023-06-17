@@ -50,7 +50,10 @@ public class AdminController {
         Page<Admin> admins = adminService.getAllAdmins((java.awt.print.Pageable) pageable);
         return new ResponseEntity<>(admins, HttpStatus.OK);
     }
+
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id){
+        return ResponseEntity.ok(adminService.deleteAdmin(id));
 
     }
 }

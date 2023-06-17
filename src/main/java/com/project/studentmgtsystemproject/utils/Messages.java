@@ -4,6 +4,8 @@ public class Messages {
     private Messages(){
 
     }
+    public static String NOT_FOUND_USER_MESSAGE = "Error: User not found with id %s";
+    public static String NOT_PERMITTED_METHOD_MESSAGE = "You do not have any permission to do this operation";
 
     public static final String  ALREADY_REGISTER_MESSAGE_USERNAME = "Error: USER with username %s already register";
 

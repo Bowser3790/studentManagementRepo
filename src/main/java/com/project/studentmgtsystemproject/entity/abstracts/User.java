@@ -25,8 +25,8 @@ This is where we started by creating this abstract class.
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public abstract class User { // if you click on the blue button on line 28 it will show you the classes that are built in
-    // the built in functionality you will be able to see in the admin class built_in is declared;
+public abstract class User { // if you click on the blue button on line 28 it will show you the classes that are built_in
+    // the built_in functionality you will be able to see in the admin class built_in is declared;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

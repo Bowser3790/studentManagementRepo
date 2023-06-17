@@ -9,6 +9,7 @@ import com.project.studentmgtsystemproject.payload.response.ResponseMessage;
 import com.project.studentmgtsystemproject.repository.*;
 import com.project.studentmgtsystemproject.utils.Messages;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,7 +48,7 @@ public class AdminService {
 
         // if username is also Admin we are setting build_in prop. to FALSE
         if(Objects.equals(adminRequest.getName(), "Admin")){
-            admin.setBuilt_in(false);
+            admin.setBuilt_in(true);
         }
         admin.setUserRole(userRoleService.getUserRole(RoleType.ADMIN));
 
@@ -66,11 +67,38 @@ public class AdminService {
         return adminRepository.findAll(pageable);
 
     }
-    public String deleteAdmin(Long id){
-        //we should check the database if the ID exists
-        Optional<Admin>admin = adminRepository.findById(id);
+    public String deleteAdmin(Long id) {
+        Optional<Admin> adminOptional = adminRepository.findById(id);
 
+        if (adminOptional.isPresent()) {
+            Admin admin = adminOptional.get();
+
+            if (admin.isBuilt_in()) {
+                throw new ConflictException(Messages.NOT_PERMITTED_METHOD_MESSAGE);
+            } else {
+                adminRepository.deleteById(id);
+                return "Admin deleted successfully";
+            }
+        } else {
+            throw new ConflictException(String.format(Messages.NOT_FOUND_USER_MESSAGE, id));
+        }
     }
+//    public String deleteAdmin(Long id){
+//        //we should check the database if the ID exists
+//        Optional<Admin>admin = adminRepository.findById(id);
+//
+//        // TO DO please divide the cases and throw meaningful response messages
+//        if(admin.isPresent() && admin.get().isBuilt_in()) {
+//            throw new ConflictException(Messages.NOT_PERMITTED_METHOD_MESSAGE);
+//        }
+//        if(admin.isPresent()) {
+//            adminRepository.deleteById(id);
+//            // TODO please divide the cases and throw meaningful response message
+//            return "Admin deleted successfully";
+//        }
+//        return String.format(Messages.NOT_FOUND_USER_MESSAGE)
+//
+//    }
     private AdminResponse mapAdminToAdminResponse(Admin admin){
         return AdminResponse.builder()
                 .userId(admin.getId())
