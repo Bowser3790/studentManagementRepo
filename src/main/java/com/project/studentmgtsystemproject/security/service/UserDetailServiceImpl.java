@@ -40,7 +40,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
                     false,
                     student.getPassword(),
                     student.getUserRole().getRoleType().name());
-        }else if(teacher!=null){
+        } else if (teacher != null) {
             return new UserDetailsImpl(
                     teacher.getId(),
                     teacher.getUsername(),
@@ -48,31 +48,32 @@ public class UserDetailServiceImpl implements UserDetailsService {
                     false,
                     teacher.getPassword(),
                     teacher.getUserRole().getRoleType().name());
-            )else if(admin!=null){
-                return new UserDetailsImpl(
-                        admin.getId(),
-                        admin.getUsername(),
-                        admin.getName(),
-                        false,
-                        admin.getPassword(),
-                        admin.getUserRole().getRoleType().name());
-        }else if(dean!=null){
-                return new UserDetailsImpl(
-                        dean.getId(),
-                        dean.getUsername(),
-                        dean.getName(),
-                        false,
-                        dean.getPassword(),
-                        dean.getUserRole().getRoleType().name());
-        }else if(viceDean!=null){
-                return new UserDetailsImpl(
-                        viceDean.getId(),
-                        viceDean.getUsername(),
-                        viceDean.getName(),
-                        false,
-                        viceDean.getPassword(),
-                        viceDean.getUserRole().getRoleType().name());
+        } else if (admin != null) { // need to go to video 6 around 3 hours in project.
+            return new UserDetailsImpl(
+                    admin.getId(),
+                    admin.getUsername(),
+                    admin.getName(),
+                    false,
+                    admin.getPassword(),
+                    admin.getUserRole().getRoleType().name());
+        } else if (dean != null) {
+            return new UserDetailsImpl(
+                    dean.getId(),
+                    dean.getUsername(),
+                    dean.getName(),
+                    false,
+                    dean.getPassword(),
+                    dean.getUserRole().getRoleType().name());
+        } else if (viceDean != null) {
+            return new UserDetailsImpl(
+                    viceDean.getId(),
+                    viceDean.getUsername(),
+                    viceDean.getName(),
+                    false,
+                    viceDean.getPassword(),
+                    viceDean.getUserRole().getRoleType().name());
         }
         throw new UsernameNotFoundException("User '" + username + " ' not found");
 
-        }
+    }
+}
