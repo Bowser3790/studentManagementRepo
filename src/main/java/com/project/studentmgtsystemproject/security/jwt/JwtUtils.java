@@ -46,7 +46,7 @@ public class JwtUtils {
         try{
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(jwtToken);
             return true;
-        } catch (ExpiredJwtException e){
+        }catch (ExpiredJwtException e){
             LOGGER.error("JWT token is expired: {}", e.getMessage());
         }catch(UnsupportedJwtException e){
             LOGGER.error("JWT token is unsupported: {}", e.getMessage());
@@ -68,7 +68,7 @@ public class JwtUtils {
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + jwtExpirationMs))
-                .signWith(SignatureAlgorithm.ES512, jwtSecret)
+                .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
     public String getUserNameFromJwtToken(String token){

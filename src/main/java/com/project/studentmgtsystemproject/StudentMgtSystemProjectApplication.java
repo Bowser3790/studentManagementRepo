@@ -8,6 +8,7 @@ import com.project.studentmgtsystemproject.service.UserRoleService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 
@@ -17,9 +18,12 @@ public class StudentMgtSystemProjectApplication implements CommandLineRunner {
     private final UserRoleService userRoleService;
     private final AdminService adminService;
 
-    public StudentMgtSystemProjectApplication(UserRoleService userRoleService, AdminService adminService) {
+    private final PasswordEncoder passwordEncoder;
+
+    public StudentMgtSystemProjectApplication(UserRoleService userRoleService, AdminService adminService, PasswordEncoder passwordEncoder) {
         this.userRoleService = userRoleService;
         this.adminService = adminService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public static void main(String[] args) {
@@ -44,7 +48,7 @@ public class StudentMgtSystemProjectApplication implements CommandLineRunner {
             AdminRequest adminRequest = new AdminRequest();
             adminRequest.setUsername("Admin");
             adminRequest.setSsn("655-44-5689");
-            adminRequest.setPassword("AnkerMan*89");
+            adminRequest.setPassword(passwordEncoder.encode("AnkerMan*89"));
             adminRequest.setName("Lara");
             adminRequest.setSurname("Bond");
             adminRequest.setPhoneNumber("555-444-6588");
