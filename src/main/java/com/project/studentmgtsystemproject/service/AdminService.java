@@ -64,7 +64,7 @@ public class AdminService {
 
     }
     public Page<Admin> getAllAdmins(Pageable pageable){
-        return adminRepository.findAll(pageable);
+        return adminRepository.findAll((org.springframework.data.domain.Pageable) pageable);
 
     }
     public String deleteAdmin(Long id) {
@@ -77,7 +77,7 @@ public class AdminService {
                 throw new ConflictException(Messages.NOT_PERMITTED_METHOD_MESSAGE);
             } else {
                 adminRepository.deleteById(id);
-                return "Admin deleted successfully";
+                return Messages.ADMIN_DELETED_SUCCESSFULLY;
             }
         } else {
             throw new ConflictException(String.format(Messages.NOT_FOUND_USER_MESSAGE, id));

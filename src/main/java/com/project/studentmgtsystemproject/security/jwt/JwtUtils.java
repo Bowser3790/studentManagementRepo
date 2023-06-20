@@ -1,13 +1,12 @@
-package com.project.studentmgtsystemproject.security.service;
+package com.project.studentmgtsystemproject.security.jwt;
 
 
+import com.project.studentmgtsystemproject.security.service.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -32,10 +31,10 @@ public class JwtUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtUtils.class);
 
-    @Value("{backendapi.app.jwtExpirationsMs}")
+    @Value("{8640000}") // backendapi.app.jwtExpirationsMs
     private long jwtExpirationMs;
 
-    @Value("{backendapi.app.jwtSecret}")
+    @Value("{schoolmanagementproject}") // backendapi.app.jwtSecret
     private String jwtSecret;
 
     public String generateJtwToken(Authentication authentication){
