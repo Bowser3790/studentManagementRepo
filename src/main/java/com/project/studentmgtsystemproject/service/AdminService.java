@@ -7,6 +7,7 @@ import com.project.studentmgtsystemproject.payload.request.AdminRequest;
 import com.project.studentmgtsystemproject.payload.response.AdminResponse;
 import com.project.studentmgtsystemproject.payload.response.ResponseMessage;
 import com.project.studentmgtsystemproject.repository.*;
+import com.project.studentmgtsystemproject.utils.FieldControl;
 import com.project.studentmgtsystemproject.utils.Messages;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -26,22 +27,14 @@ public class AdminService {
 
     private final AdminRepository adminRepository;
 
-    private final DeanRepository deanRepository;
-
-    private final ViceDeanRepository viceDeanRepository;
-
-    private final StudentRepository studentRepository;
-
-    private final TeacherRepository teacherRepository;
-
-    private final GuestUserRepository guestUserRepository;
-
     private final UserRoleService userRoleService;
+
+    private final FieldControl fieldControl;
 
 
 
     public ResponseMessage save(AdminRequest adminRequest){
-        checkDuplicate(adminRequest.getUsername(), adminRequest.getSsn(), adminRequest.getPhoneNumber());
+        fieldControl.checkDuplicate(adminRequest.getUsername(), adminRequest.getSsn(), adminRequest.getPhoneNumber());
 
         Admin admin = mapAdminRequestToAdmin(adminRequest);
         admin.setBuilt_in(false);
@@ -123,36 +116,6 @@ public class AdminService {
                 .gender(adminRequest.getGender())
                 .build();
     }
-
-    // As a requirement all Admin, ViceAdmin, Dean, Student, Teacher,
-    // should have unique username,email, ssn and phone number.
-    public void checkDuplicate(String username, String ssn, String phone){
-
-        if(adminRepository.existsByUsername(username) ||
-                deanRepository.existsByUsername(username) ||
-                studentRepository.existsByUsername(username) ||
-                teacherRepository.existsByUsername(username) ||
-                viceDeanRepository.existsByUsername(username) ||
-                guestUserRepository.existsByUsername(username)){
-            throw new ConflictException(String.format(Messages.ALREADY_REGISTER_MESSAGE_USERNAME, username));
-        }else if (adminRepository.existsBySsn(ssn) || 
-                deanRepository.existsBySsn(ssn) ||
-                studentRepository.existsBySsn(ssn) ||
-                teacherRepository.existsBySsn(ssn) ||
-                viceDeanRepository.existsBySsn(ssn) ||
-                guestUserRepository.existsBySsn(ssn)){
-            throw new ConflictException(String.format(Messages.ALREADY_REGISTER_MESSAGE_SSN,ssn));
-        } else if (adminRepository.existsByPhoneNumber(phone) ||
-                deanRepository.existsByPhoneNumber(phone) ||
-                studentRepository.existsByPhoneNumber(phone) ||
-                teacherRepository.existsByPhoneNumber(phone) ||
-                viceDeanRepository.existsByPhoneNumber(phone) ||
-                guestUserRepository.existsByPhoneNumber(phone)) {
-            throw new ConflictException(String.format(Messages.ALREADY_REGISTER_MESSAGE_PHONE_NUMBER, phone));
-            
-        }
-
-        }
 
     public long countAllAdmins(){
         return adminRepository.count();

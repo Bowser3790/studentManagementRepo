@@ -87,8 +87,7 @@ public class WebSecurityConfig {
     }
 
     /**
-     * This will be our
-     * @return
+     * This will be our password encoder
      */
     @Bean
     public PasswordEncoder passwordEncoder(){

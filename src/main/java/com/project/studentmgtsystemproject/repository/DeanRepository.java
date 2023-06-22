@@ -1,5 +1,6 @@
 package com.project.studentmgtsystemproject.repository;
 
+import com.project.studentmgtsystemproject.entity.abstracts.User;
 import com.project.studentmgtsystemproject.entity.concretes.Dean;
 import org.springframework.data.jpa.repository.JpaRepository;
 
