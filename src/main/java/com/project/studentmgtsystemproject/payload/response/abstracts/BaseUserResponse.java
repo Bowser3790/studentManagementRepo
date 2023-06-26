@@ -18,6 +18,7 @@ public abstract class BaseUserResponse {
     private String name;
     private String surname;
     private LocalDate birthDay;
+    private String birthPlace;
     private String ssn;
     private String phoneNumber;
     private Gender gender;

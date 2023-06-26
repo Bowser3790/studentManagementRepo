@@ -6,10 +6,7 @@ import com.project.studentmgtsystemproject.payload.response.DeanResponse;
 import com.project.studentmgtsystemproject.payload.response.ResponseMessage;
 import com.project.studentmgtsystemproject.service.DeanService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -23,7 +20,20 @@ public class DeanController {
 
     @PostMapping("/save")
     public ResponseMessage<DeanResponse> save(@RequestBody @Valid DeanRequest deanRequest){ // DeanRequest is DTO
-        return null;
+        return deanService.save(deanRequest);
+    }
+
+    @PutMapping("/update/{userId}")
+    public ResponseMessage<DeanResponse> update(@RequestBody @Valid DeanRequest deanRequest, @PathVariable Long userId){
+        return deanService.update(deanRequest, userId);
+    }
+
+    @DeleteMapping("/delete/{userId}")
+    public ResponseMessage<?> deleteDeanById(@PathVariable Long userId){
+
+        return deanService.deleteDeanById(userId);
+
+        // TODO Homework (write this delete message again with requests param
     }
 
 }

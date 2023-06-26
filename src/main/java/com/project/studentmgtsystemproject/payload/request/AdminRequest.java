@@ -2,6 +2,7 @@ package com.project.studentmgtsystemproject.payload.request;
 
 
 import com.project.studentmgtsystemproject.payload.request.abstracts.BaseUserRequests;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

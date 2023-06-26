@@ -3,13 +3,15 @@ package com.project.studentmgtsystemproject.utils;
 
 import com.project.studentmgtsystemproject.exception.ConflictException;
 import com.project.studentmgtsystemproject.repository.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class FieldControl {
-
 
 
     // As a requirement all Admin, ViceAdmin, Dean, Student, Teacher,
@@ -26,8 +28,20 @@ public class FieldControl {
 
     private final GuestUserRepository guestUserRepository;
 
-    public void checkDuplicate(String username, String ssn, String phone){
+    public void checkDuplicate(String... values){
+        String username = values[0];
+        String ssn = values[1];
+        String phone = values[2];
+        String email = "";
 
+        if(values.length == 4){
+            email = values[3];
+
+        }
+
+
+
+//    public void checkDuplicate(String username, String ssn, String phone, String email) {
 
         if (adminRepository.existsByUsername(username) ||
                 deanRepository.existsByUsername(username) ||
@@ -51,8 +65,11 @@ public class FieldControl {
                 guestUserRepository.existsByPhoneNumber(phone)) {
             throw new ConflictException(String.format(Messages.ALREADY_REGISTER_MESSAGE_PHONE_NUMBER, phone));
 
+        } else if (studentRepository.existsByEmail(email) ||
+                teacherRepository.existsByEmail(email)) {
+            throw new ConflictException(String.format(Messages.ALREADY_REGISTER_MESSAGE_EMAIL, email));
+
+
         }
-
-
     }
 }
