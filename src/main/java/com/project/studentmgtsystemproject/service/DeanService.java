@@ -13,11 +13,18 @@ import com.project.studentmgtsystemproject.utils.CheckParameterUpdatedMethod;
 import com.project.studentmgtsystemproject.utils.FieldControl;
 import com.project.studentmgtsystemproject.utils.Messages;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -45,10 +52,12 @@ public class DeanService {
                 .object(deanDto.mapDeanToDeanResponse(savedDean))
                 .build();
     }
+
+    // we are preventing the user to change the username + ssn + phone number
     public ResponseMessage<DeanResponse>update(DeanRequest deanRequest, Long deanId) {
         Optional<Dean> dean = isDeanExist(deanId);
         // do we really have a dean with this ID?
-       if (CheckParameterUpdatedMethod.checkUniqueProperties(dean.get(), deanRequest)) {
+       if (!CheckParameterUpdatedMethod.checkUniqueProperties(dean.get(), deanRequest)) {
             fieldControl.checkDuplicate(deanRequest.getUsername(),
                                         deanRequest.getSsn(),
                                         deanRequest.getPhoneNumber());
@@ -105,4 +114,29 @@ public class DeanService {
 
 
 
+    public ResponseMessage<DeanResponse> getDeanById(Long deanId) {
+
+        return ResponseMessage.<DeanResponse>builder()
+                .message("Dean Deleted")
+                .httpStatus(HttpStatus.OK)
+                .object(deanDto.mapDeanToDeanResponse(isDeanExist(deanId).get()))
+                .build();
+    }
+
+    public List<DeanResponse> getAllDeans() {
+
+        return deanRepository.findAll()
+                .stream()
+                .map(deanDto::mapDeanToDeanResponse)
+                .collect(Collectors.toList());
+
+    }
+    public Page<DeanResponse> getAllDeansByPage(int page,int size, String sort, String type){
+        Pageable pageable = PageRequest.of(page,size, Sort.by(sort).ascending());
+
+        if(Objects.equals(type,"desc")){
+            pageable = PageRequest.of(page,size,Sort.by(sort).descending());
+        }
+        return deanRepository.findAll(pageable).map(deanDto::mapDeanToDeanResponse);
+    }
 }

@@ -10,6 +10,8 @@ public class CheckParameterUpdatedMethod {
      * @param user a kind of entity that will be validated
      * @param baseUserRequests DTO from UI to be changed
      * @return true if they are the same
+     *
+     * why are we using equalsIgnoreCase for SSN and PhoneNumber?
      */
 
     public static boolean checkUniqueProperties(User user, BaseUserRequests baseUserRequests){
