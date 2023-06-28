@@ -2,16 +2,20 @@ package com.project.studentmgtsystemproject.payload.mapper;
 
 import com.project.studentmgtsystemproject.entity.concretes.Dean;
 import com.project.studentmgtsystemproject.entity.concretes.ViceDean;
+import com.project.studentmgtsystemproject.enums.RoleType;
 import com.project.studentmgtsystemproject.payload.request.DeanRequest;
 import com.project.studentmgtsystemproject.payload.request.ViceDeanRequest;
 import com.project.studentmgtsystemproject.payload.response.DeanResponse;
 import com.project.studentmgtsystemproject.payload.response.ViceDeanResponse;
+import com.project.studentmgtsystemproject.service.UserRoleService;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
 @Data
 @Component
 public class ViceDeanDto {
+
+    private final UserRoleService userRoleService;
 
     public ViceDean mapViceDeanRequestToViceDean (ViceDeanRequest viceDeanRequest){
         return ViceDean.builder()
@@ -38,6 +42,20 @@ public class ViceDeanDto {
                 .phoneNumber(viceDean.getPhoneNumber())
                 .gender(viceDean.getGender())
                 .ssn(viceDean.getSsn())
+                .build();
+    }
+    public ViceDean mapDeanRequestToUpdatedViceDean(ViceDeanRequest viceDeanRequest, Long viceDeanId){
+        return ViceDean.builder()
+                .id(viceDeanId)
+                .username(viceDeanRequest.getUsername())
+                .ssn(viceDeanRequest.getSsn())
+                .name(viceDeanRequest.getName())
+                .surname(viceDeanRequest.getSurname())
+                .birthPlace(viceDeanRequest.getBirthPlace())
+                .birthDay(viceDeanRequest.getBirthDay())
+                .phoneNumber(viceDeanRequest.getPhoneNumber())
+                .gender(viceDeanRequest.getGender())
+                .userRole(userRoleService.getUserRole(RoleType.ASSISTANT_MANAGER))
                 .build();
     }
 

@@ -8,6 +8,7 @@ import com.project.studentmgtsystemproject.service.ViceDeanService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +26,14 @@ public class ViceDeanController {
     @PostMapping("/save")
     public ResponseMessage<ViceDeanResponse> saveViceDean(@RequestBody @Valid ViceDeanRequest viceDeanRequest) {
         return viceDeanService.saveViceDean(viceDeanRequest);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
+    @PutMapping("/update{userId}")  // just not that {userId} and userId parameters below should be the same.  Or you will not see this accepted on POSTMAN.
+    public ResponseMessage<ViceDeanResponse> updateViceDean(@RequestBody @Valid ViceDeanRequest viceDeanRequest
+                                                            ,@PathVariable Long userId){
+        return viceDeanService.updateViceDean(viceDeanRequest,userId);
+
     }
 
     // implement 2 methods Delete By Id, and findById

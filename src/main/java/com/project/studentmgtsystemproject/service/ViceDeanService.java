@@ -10,6 +10,7 @@ import com.project.studentmgtsystemproject.payload.response.DeanResponse;
 import com.project.studentmgtsystemproject.payload.response.ResponseMessage;
 import com.project.studentmgtsystemproject.payload.response.ViceDeanResponse;
 import com.project.studentmgtsystemproject.repository.ViceDeanRepository;
+import com.project.studentmgtsystemproject.utils.CheckParameterUpdatedMethod;
 import com.project.studentmgtsystemproject.utils.FieldControl;
 import com.project.studentmgtsystemproject.utils.Messages;
 import lombok.Data;
@@ -81,6 +82,24 @@ public class ViceDeanService {
                 .message("Vice Dean Deleted")
                 .httpStatus(HttpStatus.OK)
                 .object(viceDeanDto.mapViceDeanToViceDeanResponse(isViceDeanExist(viceDeanId).get()))
+                .build();
+    }
+    public ResponseMessage<ViceDeanResponse> updateViceDean(ViceDeanRequest viceDeanRequest, Long viceDeanId){
+        Optional<ViceDean> viceDean = isViceDeanExist(viceDeanId);
+        if(!CheckParameterUpdatedMethod.checkUniqueProperties(viceDean.get(),viceDeanRequest)){
+            fieldControl.checkDuplicate(viceDeanRequest.getUsername(),
+                                        viceDeanRequest.getSsn(),
+                                        viceDeanRequest.getPhoneNumber());
+
+        }
+        ViceDean updatedViceDean = viceDeanDto.mapDeanRequestToUpdatedViceDean(viceDeanRequest, viceDeanId);
+        updatedViceDean.setPassword(passwordEncoder.encode(viceDeanRequest.getPassword()));
+        ViceDean savedViceDean = viceDeanRepository.save(updatedViceDean);
+
+        return ResponseMessage.<ViceDeanResponse>builder()
+                .message("Vice Dean Updated")
+                .httpStatus(HttpStatus.OK)
+                .object(viceDeanDto.mapViceDeanToViceDeanResponse(savedViceDean))
                 .build();
     }
 
