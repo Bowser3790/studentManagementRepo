@@ -3,15 +3,17 @@ package com.project.studentmgtsystemproject.utils;
 
 import com.project.studentmgtsystemproject.exception.ConflictException;
 import com.project.studentmgtsystemproject.repository.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
+
+import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
-public class FieldControl {
+public class ServiceHelpers {
 
 
     // As a requirement all Admin, ViceAdmin, Dean, Student, Teacher,
@@ -27,6 +29,15 @@ public class FieldControl {
     private final TeacherRepository teacherRepository;
 
     private final GuestUserRepository guestUserRepository;
+
+    public Pageable getPageableWithProperties(int page, int size, String sort, String type){
+        Pageable pageable = (Pageable) PageRequest.of(page, size, Sort.by(sort).ascending());
+        if (Objects.equals(type,"desc")){
+            pageable = (Pageable) PageRequest.of(page, size, Sort.by(sort).descending());
+        }
+        return pageable;
+
+    }
 
     public void checkDuplicate(String... values){
         String username = values[0];

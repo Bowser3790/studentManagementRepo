@@ -7,15 +7,12 @@ import com.project.studentmgtsystemproject.payload.request.AdminRequest;
 import com.project.studentmgtsystemproject.payload.response.AdminResponse;
 import com.project.studentmgtsystemproject.payload.response.ResponseMessage;
 import com.project.studentmgtsystemproject.repository.*;
-import com.project.studentmgtsystemproject.utils.FieldControl;
+import com.project.studentmgtsystemproject.utils.ServiceHelpers;
 import com.project.studentmgtsystemproject.utils.Messages;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.awt.print.Pageable;
 import java.util.Objects;
@@ -29,12 +26,12 @@ public class AdminService {
 
     private final UserRoleService userRoleService;
 
-    private final FieldControl fieldControl;
+    private final ServiceHelpers serviceHelpers;
 
 
 
     public ResponseMessage save(AdminRequest adminRequest){
-        fieldControl.checkDuplicate(adminRequest.getUsername(), adminRequest.getSsn(), adminRequest.getPhoneNumber());
+        serviceHelpers.checkDuplicate(adminRequest.getUsername(), adminRequest.getSsn(), adminRequest.getPhoneNumber());
 
         Admin admin = mapAdminRequestToAdmin(adminRequest);
         admin.setBuilt_in(false);
@@ -92,6 +89,10 @@ public class AdminService {
 //        return String.format(Messages.NOT_FOUND_USER_MESSAGE)
 //
 //    }
+
+
+    // TO DO: move this to mappers package and create an admin class
+    // make the same implementation as we did in DeanDto, and ViceDeanDto classes
     private AdminResponse mapAdminToAdminResponse(Admin admin){
         return AdminResponse.builder()
                 .userId(admin.getId())

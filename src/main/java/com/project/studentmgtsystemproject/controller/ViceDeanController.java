@@ -9,10 +9,12 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -49,6 +51,25 @@ public class ViceDeanController {
     @GetMapping("/getViceDeanById/{userId}")
     public ResponseMessage<ViceDeanResponse> getViceDeanById(@PathVariable Long userId) {
         return viceDeanService.getViceDeanById(userId);
+
+    }
+    @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
+    @GetMapping ("/getAllViceDeans")
+    public List<ViceDeanResponse> getAllViceDeans(){
+        return viceDeanService.getAllViceDeans();
+
+
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
+    @GetMapping("/search")
+    public Page<ViceDeanResponse> getAllViceDeansByPage(
+            @RequestParam(value= "page", defaultValue = "0",required = false) int page,
+            @RequestParam(value= "size") int size,
+            @RequestParam(value= "sort", defaultValue = "name") String sort,
+            @RequestParam(value= "type", defaultValue = "desc") String type){
+        return viceDeanService.getAllViceDeansByPage(page,size,sort,type);
+
 
     }
 }

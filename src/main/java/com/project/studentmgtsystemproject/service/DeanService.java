@@ -10,7 +10,7 @@ import com.project.studentmgtsystemproject.payload.response.DeanResponse;
 import com.project.studentmgtsystemproject.payload.response.ResponseMessage;
 import com.project.studentmgtsystemproject.repository.DeanRepository;
 import com.project.studentmgtsystemproject.utils.CheckParameterUpdatedMethod;
-import com.project.studentmgtsystemproject.utils.FieldControl;
+import com.project.studentmgtsystemproject.utils.ServiceHelpers;
 import com.project.studentmgtsystemproject.utils.Messages;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class DeanService {
-    private final FieldControl fieldControl;
+    private final ServiceHelpers serviceHelpers;
 
     private final DeanDto deanDto;
     private final UserRoleService userRoleService;
@@ -39,7 +39,7 @@ public class DeanService {
     // TODO use mapstruct in your 3. repository
 
     public ResponseMessage<DeanResponse> save(DeanRequest deanRequest){
-        fieldControl.checkDuplicate(deanRequest.getUsername(),deanRequest.getSsn(),deanRequest.getPhoneNumber());
+        serviceHelpers.checkDuplicate(deanRequest.getUsername(),deanRequest.getSsn(),deanRequest.getPhoneNumber());
         Dean dean = deanDto.mapDeanRequestToDean(deanRequest);
         dean.setUserRole(userRoleService.getUserRole(RoleType.MANAGER));
         dean.setPassword(passwordEncoder.encode(dean.getPassword()));
@@ -58,7 +58,7 @@ public class DeanService {
         Optional<Dean> dean = isDeanExist(deanId);
         // do we really have a dean with this ID?
        if (!CheckParameterUpdatedMethod.checkUniqueProperties(dean.get(), deanRequest)) {
-            fieldControl.checkDuplicate(deanRequest.getUsername(),
+            serviceHelpers.checkDuplicate(deanRequest.getUsername(),
                                         deanRequest.getSsn(),
                                         deanRequest.getPhoneNumber());
 
