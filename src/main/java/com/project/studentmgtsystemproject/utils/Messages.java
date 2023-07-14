@@ -34,6 +34,9 @@ public class Messages {
 
     public static final String NOT_FOUND_EDUCATION_TERM_BY_ID = "Error: Education term not found by id";
 
+    public static  final String ALREADY_REGISTERED_LESSON_MESSAGE = "Error: Lesson name %s is already registered";
+
+    public static  final String LESSON_MESSAGE_NOT_FOUND = "Error: Lesson name %s is already registered";
 
 
 }

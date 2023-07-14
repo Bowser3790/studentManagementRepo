@@ -18,8 +18,8 @@ public class Lesson {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long lessonId;
 
+    private Long lessonId;
     private String lessonName;
     private Integer creditScore;
     private Boolean isCompulsory;

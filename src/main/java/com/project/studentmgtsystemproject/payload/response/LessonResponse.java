@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.criteria.CriteriaBuilder;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,6 +15,6 @@ import lombok.NoArgsConstructor;
 public class LessonResponse {
     private Long lessonId;
     private String lessonName;
-    private int creditScore;
-    private boolean isCompulsory;
+    private Integer creditScore;
+    private Boolean isCompulsory;
 }
