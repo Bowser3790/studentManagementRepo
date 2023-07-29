@@ -43,14 +43,24 @@ public class EducationTermService {
     public EducationTermResponse getEducationTermById(Long id){
          //return educationTermDto.mapEducationTermToEducationTermResponse(educationTermRepository.findById(id))
 
-        EducationTerm term = educationTermRepository.findByIdEquals(id);
+        EducationTerm term = checkEducationTermExists(id);
+        return educationTermDto.mapEducationTermToEducationTermResponse(term);
 
-        if (term == null){
-            throw new ResourceNotFoundException(String.format(Messages.EDUCATION_TERM_NOT_FOUND, id));
-        }else{
-            return educationTermDto.mapEducationTermToEducationTermResponse(term);
-        }
+//        EducationTerm term = educationTermRepository.findByIdEquals(id);
+//
+//        if (term == null){
+//            throw new ResourceNotFoundException(String.format(Messages.EDUCATION_TERM_NOT_FOUND, id));
+//        }else{
+//            return educationTermDto.mapEducationTermToEducationTermResponse(term);
+//        }
     }
+    public EducationTermResponse getEducationTermResponseById(Long id) {
+        //return educationTermDto.mapEducationTermToEducationTermResponse(educationTermRepository.findById(id))
+
+        EducationTerm term = checkEducationTermExists(id);
+        return educationTermDto.mapEducationTermToEducationTermResponse(term);
+    }
+
     public ResponseMessage<?>deleteEducationTermById(Long id){
         checkEducationTermExists(id);
         educationTermRepository.deleteById(id);

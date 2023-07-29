@@ -39,4 +39,5 @@ public class Messages {
     public static  final String LESSON_MESSAGE_NOT_FOUND = "Error: Lesson name %s is already registered";
 
 
+    public static final String NOT_FOUND_LESSON_IN_LIST = "Error: Lesson name not found in the list";
 }

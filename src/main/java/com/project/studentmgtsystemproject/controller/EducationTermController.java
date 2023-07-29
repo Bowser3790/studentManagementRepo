@@ -21,21 +21,18 @@ public class EducationTermController {
 
     EducationTermService educationTermService;
 
+    @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
+    @GetMapping("/save")
     public ResponseMessage<EducationTermResponse> saveEducationTerm(@RequestBody @Valid EducationTermRequest educationTermRequest){
 
-        return educationTermService.saveEducationTerm(educationTermRequest)
+        return educationTermService.saveEducationTerm(educationTermRequest);
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER','ASSISTANT_MANAGER','TEACHER')")
     @GetMapping("/{id}")
-    public EducationTermResponse getEducationTermById(){
-        return educationTermService.findEducationTermById();
-    }
+    public EducationTermResponse getEducationTermById(@PathVariable Long id){
+        return educationTermService.getEducationTermResponseById(id);
 
-    @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER','ASSISTANT_MANAGER','TEACHER')")
-    @GetMapping("/{id}")
-    public EducationTermResponse getEducationTermById(){
-        return educationTermService.getEducationTermById()
 
     }
     @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER','ASSISTANTMANAGER','TEACHER')")

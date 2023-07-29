@@ -65,6 +65,7 @@ public class LessonService {
         return lessonRepository.findAll(pageable).map(lessonDto::mapLessonToLessonResponse);
     }
 
+    // TODO incase of returning empty collection, exception handling may be demanded.
     public Set<Lesson> getLessonByLessonIdSet(Set<Long> lessons){
         return lessonRepository.getLessonByLessonIdList(lessons);
         // this should have been mapped through DTO object.
@@ -78,13 +79,12 @@ public class LessonService {
         if (lessonExist) {
             throw new ConflictException(String.format(Messages.ALREADY_REGISTERED_LESSON_MESSAGE, lessonName));
         } else {
-            return lessonRepository.getLessonByLessonName(lessonName).get();
+            return false;
         }
     }
     private void isLessonExistsById(Long id) {
         lessonRepository.findById(id).orElseThrow(()->{
-            throw new ResourceNotFoundException(String.format(Messages.LESSON_MESSAGE_NOT_FOUND,id));
-                });
+            throw new ResourceNotFoundException(String.format(Messages.LESSON_MESSAGE_NOT_FOUND,id));});
         }
 
     public Page<LessonResponse> findLessonByPage(int page, int size, String sort, String type) {
